@@ -1,0 +1,31 @@
+﻿server:
+  host: '107.151.172.213'
+  port: 10070
+slave:
+  port: 503
+  adr: 1
+scrept: 
+  B机柜1功率 :
+    gs: "{S12E42A56}+{S12E41A56}"
+    adr: 1
+    type: 'float'
+  B机柜1功率百分比: 
+    gs: "({S12E42A56}+{S12E41A56})/0.03"
+    adr: 3
+    type: 'float'
+  B机柜1功率百分比1: 
+    gs: "({S12E42A56}+{S12E41A56})/0.01"
+    adr: 5
+    type: 'float'
+  B机柜1功率超限80: 
+    gs: "1 if ({S12E42A56}+{S12E41A56})/0.03 > 10 else 0"
+    adr: 1
+    type: 'int'
+  B机柜1功率超限100 : 
+    gs: "1 if ({S12E43A56}+{S12E44A56})/0.03 > 10 else 0"
+    adr: 2
+    type: 'int'
+  B机柜1功率超限110:  
+    gs: "1 if ({S12E42A56}+{S12E41A56})/0.03 > 10 else 0"
+    adr: 3
+    type: 'int'
