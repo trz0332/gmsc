@@ -26,12 +26,13 @@ def getdata(ts,l1):
         global init_flag
         while 1:
             t1=time.time()
-            datalist=ts.getmkey(l1)
             try:
                 datalist=ts.getmkey(l1)
-            except:
+            except Exception as e:
                 slave_1.set_values('1',0,0)
                 log2.info('连接redis失败,1分钟后重试')
+                log2.info(e)
+                init_flag=0
                 time.sleep(60)
             else:
                 slave_1.set_values('1',0,1)
@@ -41,9 +42,6 @@ def getdata(ts,l1):
                 init_flag=1
                 log2.info('获取redis耗时{}'.format(time.time()-t1))
                 time.sleep(5)
-
-
-
 def runsc(slave):
     while 1:
         if init_flag:
@@ -62,7 +60,10 @@ def runsc(slave):
                 elif scrept[i]['type']=='float':
                     mb_set_float('0',scrept[i]['adr'],datemdbus)
             log2.info('写入modbus点表耗时{}'.format(time.time()-t11))
-            time.sleep(4)
+        else:
+            log2.info('连接redis失败，等待redis连接成功，暂停modbus数据刷新')
+            time.sleep(30)
+        time.sleep(4)
 
 
 
@@ -124,6 +125,10 @@ if config:
         elif config['scrept'][i]['type']=='int' and  config['scrept'][i]['adr']>MAXADR_C:
             MAXADR_C=config['scrept'][i]['adr']
     runflag=1
+print('---------------------\n\
+redis服务器{}端口{}\n\
+modbus端口{}地址{}\n\
+---------------------'.format(config['server']['host'],config['server']['port'],config['slave']['port'],config['slave']['adr']))
 print('初始化modbus服务器{}'.format('_'*100))
 log2.info('初始化modbus服务器{}'.format('_'*100))
 server = modbus_tcp.TcpServer(port=config['slave']['port'])

@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['gjsc.py'],
-             pathex=['D:\\Seafile\\snmp\\xb_modbus'],
+             pathex=['D:\\Seafile\\snmp\\xb_modbus\\gmsc'],
              binaries=[],
              datas=[],
              hiddenimports=[],
