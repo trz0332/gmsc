@@ -1,1 +1,1 @@
-pyinstaller -i .\ico.ico -F   gjsc.py
+pyinstaller -i .\ico.ico --add-data=".\config.yaml;."    xbnorth.py
